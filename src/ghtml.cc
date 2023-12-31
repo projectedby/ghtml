@@ -250,7 +250,7 @@ public:     void print(void)
             {
                 for(std::list<Token *>::iterator it = tokens.begin(); it != tokens.end(); ++it) {
                     Token * token = *it;
-                    token->print();
+                    // token->print();
                     // std::cout << token->name() << std::endl;
                 }
             }
@@ -298,7 +298,6 @@ static std::list<Token *> parse(xmlNodePtr parent, xmlDocPtr doc) {
             cur = cur->next;
             continue;
         }
-        printf("%s\n", (const char *) cur->name);
 
         cur = cur->next;
     }
@@ -315,7 +314,6 @@ static void parseMain(xmlNodePtr parent, xmlDocPtr doc) {
         }
 
         if(!xmlStrcmp(cur->name, (const xmlChar *) "ghtml-declare")) {
-            printf("%s\n", cur->name);
 
             xmlChar * __type = xmlGetProp(cur, (const xmlChar *) "type");
             xmlChar * __name = xmlGetProp(cur, (const xmlChar *) "name");
@@ -323,15 +321,11 @@ static void parseMain(xmlNodePtr parent, xmlDocPtr doc) {
 
             Declare * __declare = new Declare((const char *) __type, (const char *) __name, (const char *) __value);
 
-            printf("%s\n", (const char *) __type);
-            printf("%s\n", (const char *) __name);
-            printf("%s\n", (const char *) __value);
 
             xmlFree(__type);
             xmlFree(__name);
             xmlFree(__value);
 
-            printf("%p\n", cur->xmlChildrenNode);
 
             document.add(__declare);
 
@@ -340,8 +334,6 @@ static void parseMain(xmlNodePtr parent, xmlDocPtr doc) {
         }
 
         if(!xmlStrcmp(cur->name, (const xmlChar *) "ghtml-return")) {
-            printf("%s\n", cur->name);
-            printf("%p\n", cur->xmlChildrenNode);
 
             Return * __return = new Return();
 
@@ -358,12 +350,10 @@ static void parseMain(xmlNodePtr parent, xmlDocPtr doc) {
             continue;
         }
 
-        printf("hello world\n");
 
         xmlBufferPtr buffer = xmlBufferCreate();
         int n = xmlNodeDump(buffer, doc, cur, 0, 1);
 
-        printf("%s\n", buffer->content);
 
         xmlBufferFree(buffer);
         cur = cur->next;
@@ -413,7 +403,7 @@ int main(int argc, char ** argv)
             cur = cur->next;
             continue;
         }
-        printf("%s\n", cur->name);
+
         if(!xmlStrcmp(cur->name, (const xmlChar *) "head")) {
             cur = cur->next;
             continue;
@@ -425,12 +415,8 @@ int main(int argc, char ** argv)
             continue;
         }
 
-        printf("hello world");
-
         xmlBufferPtr buffer = xmlBufferCreate();
         int n = xmlNodeDump(buffer, doc, cur, 0, 1);
-
-        printf("%s\n", buffer->content);
 
         xmlBufferFree(buffer);
         cur = cur->next;
